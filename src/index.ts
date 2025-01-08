@@ -17,11 +17,28 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
 /*Routes*/
-app.get("/hello", (req, res) => {
-  res.send("Hello world");
-});
 app.use("/dashboard", dashboardRoutes);
 app.use("/products", productsRoutes);
+app.get("/", (req, res) => {
+  res.json({
+    mensaje: "Welcome to Dashboard API REST",
+    version: "1.0.0",
+    routes: [
+      {
+        endpoint: "/dashboard",
+        metodo: "GET",
+        description: "Get Dashboard Metrics",
+      },
+      {
+        endpoint: "/products",
+        metodo: "GET",
+        description: "Get Products List",
+      },
+      { endpoint: "/products", metodo: "POST", description: "Create Product" },
+    ],
+  });
+});
+
 /*Server*/
 const port = process.env.PORT || 4000;
 app.listen(port, () => {
